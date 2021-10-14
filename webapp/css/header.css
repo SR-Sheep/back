@@ -1,0 +1,154 @@
+#header {
+	position : fixed;
+	top:0;
+	width: 100%;
+	height: 100px;
+	background : #fff;
+	border-bottom: #ef780d 2px solid;
+	text-align: center;
+	z-index : 1000;
+	padding:10px 0;
+}
+
+#headerWrap {
+	position: absolute;
+	width: 1100px;
+	left: 0;
+	right: 0;
+	display: inline-block;
+	z-index: 5;
+	margin: auto;
+}
+
+#header .search_wrap {
+	position: relative;
+	float: left;
+	width: 820px;
+	height: 100px;
+}
+
+#header #logoWrap {
+	float: left;
+	display: inline-block;
+	width: 200px;
+	height: 100px;
+}
+
+#header #logoWrap img {
+	height: 90px;
+}
+
+#header .search_box {
+	position: absolute;
+	width: 600px;
+	margin-top: 10px;
+	border-radius: 30px;
+	border: #fafafa 2px solid;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0
+		rgba(0, 0, 0, 0.12);
+	text-align: center;
+	background: #fff;
+}
+
+#header .search_box input {
+	position: relative;
+	width: 500px;
+	border: transparent 2px solid;
+	font-size: 16px;
+	margin-top: 5px;
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+
+#header .search_box .fa-search {
+	position: relative;
+	left: -20px;
+	top: 2px;
+	font-size: 20px;
+	color: #424242;
+}
+
+#header .search_box input:focus {
+	outline: none;
+}
+
+#header .autocomplete {
+	position: relative;
+	text-align: left;
+	background: #fff;
+	border-radius: 0 0 30px 30px;
+	max-height: 280px;
+	overflow: auto;
+	z-index: 5;
+}
+
+#header .autocomplete>li {
+	padding: 10px;
+	padding-left: 67px;
+	cursor: pointer;
+}
+
+#header .autocomplete>li:hover {
+	background: #f0f0f0;
+}
+
+#header .selected {
+	background: #f0f0f0;
+}
+
+#header .last {
+	background: #fff;
+	height: 10px;
+	padding: 5px;
+	cursor: default;
+	width: 1px;
+	margin-left: 50px;
+}
+
+.autocomplete .last:hover {
+	
+}
+
+#header .ingredient_list {
+	display: block;
+	position: absolute;
+	top: 67px;
+	z-index: 1;
+	text-align: left;
+}
+
+#header .checked_ingredient {
+	display: inline-block;
+	position: relative;
+	font-size: 16px;
+	background: #fff4e8;
+	padding: 10px;
+	margin: 2px;
+	border-radius: 20px;
+}
+
+#header .checked_ingredient:hover {
+	text-decoration: #424242 underline;
+	cursor: pointer;
+}
+
+#header #btnForm {
+	float: left;
+}
+
+#header #submitBtn {
+	width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	margin-top: 10px; background : #ef780d;
+	font-size: 15px;
+	color: #fff;
+	border: 0;
+	transition: .2s ease;
+	cursor: pointer;
+	background: #ef780d;
+}
+
+#header #submitBtn:hover {
+	text-shadow: #FC0 1px 0 10px;
+}

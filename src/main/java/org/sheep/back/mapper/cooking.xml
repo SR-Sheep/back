@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cooking">
+
+<!--21.07.06 요리 제목, 썸네일, 아이디 등록  -->
+<insert id="insertCooking" parameterType="Cooking">
+	<selectKey keyProperty="no" resultType="int" order="BEFORE">  
+        SELECT cooking_seq.nextval
+        FROM dual
+    </selectKey>
+	INSERT INTO cooking(no,cooking,thumbnail,id,regdate)
+	VALUES (#{no},#{cooking},#{thumbnail},#{id},#{regdate})
+</insert>
+
+<!--21-07-07 23:30 id로 cooking 정보 가져오기  -->
+<select id="selectOneCooking" parameterType="String" resultType="Cooking">
+SELECT no,cooking,thumbnail,id,regdate
+FROM cooking
+WHERE id=#{id}
+</select>
+
+<!--21-07-19 17:48 요리 전체 정보 불러오기 위한 resultMap 설계  -->
+<resultMap type="Cooking" id="cookingList">
+	<result property="no" column="cNo"/>
+	<result property="cooking" column="cCooking"/>
+	<result property="thumbnail" column="cThumbnail"/>
+	<result property="id" column="cId"/>
+	<result property="regdate" column="cRegdate"/>
+	<collection property="subtitles" resultMap="titleList" ofType="cookingList"/>
+</resultMap>
+<resultMap type="Title" id="titleList">
+	<result property="no" column="tNo"/>
+	<result property="title" column="tTitle"/>
+	<result property="regdate" column="tRegdate"/>
+	<collection property="ingredients" resultMap="ingredientList" ofType="titleList"/>
+</resultMap>
+<resultMap type="Ingredient" id="ingredientList">
+	<result property="no" column="iNo"/>
+	<result property="ingredient" column="iIngredient"/>
+	<result property="regdate" column="iRegdate"/>
+</resultMap>
+
+<!--21-07-19 22:26 요리 전체 정보 불러오기 -->
+<select id="selectListAll" parameterType="PageVO" resultMap="cookingList">
+	SELECT cNO, cCooking, cThumbnail, cId, cRegdate,
+			t.no tNo, t.title tTitle, t.regdate tRegdate,
+			i.no iNo, i.ingredient iIngredient, i.regdate iRegdate
+	FROM (SELECT cNO, cCooking, cThumbnail, cId, cRegdate, rownum r
+		  FROM(SELECT c.no cNo, c.cooking cCooking, c.thumbnail cThumbnail,
+		  			  c.id cId, c.regdate cRegdate
+			   FROM cooking c
+			   ORDER BY c.regdate DESC
+			  )
+	      ) c, title t, title_ing ti, ingredient i
+	WHERE cNo=t.cookingNo AND t.no=ti.titleNo AND i.no=ti.ingNo
+			AND r BETWEEN #{start} AND #{end}
+	ORDER BY r
+</select>
+
+<!--21-07-27 22:46 재료를 통해 요리 정보 불러오기 -->
+<select id="selectListByIngredients" parameterType="PageVO" resultMap="cookingList">
+	SELECT cNo, cCooking, cThumbnail, cId, cRegdate,
+			t.no tNo, t.title tTitle, t.regdate tRegdate,
+			i.no iNo, i.ingredient iIngredient, i.regdate iRegdate,r
+	FROM (SELECT cNo, cCooking, cThumbnail, cId, cRegdate, rownum r
+		  FROM(SELECT c.no cNo, c.cooking cCooking, c.thumbnail cThumbnail, 
+		  			  c.id cId, c.regdate cRegdate,
+		  			  COUNT(CASE WHEN i.ingredient IN
+					  <foreach collection="ingredients" open="(" item="ingredient" separator="," close=")" >
+			    		#{ingredient}
+			   		  </foreach>
+					  THEN 1 END ) c
+		       FROM cooking c, title t, title_ing ti, ingredient i
+			   WHERE c.no=t.cookingNo AND t.no=ti.titleNo AND i.no=ti.ingNo AND i.ingredient IN
+			   <foreach collection="ingredients" open="(" item="ingredient" separator="," close=")" >
+			    #{ingredient}
+			   </foreach>
+			   GROUP BY c.No,c.Cooking,c.Thumbnail,c.Id,c.Regdate
+	           ORDER BY c DESC,c.regdate DESC)
+           ) c, title t, title_ing ti, ingredient i
+	WHERE cNo=t.cookingNo AND t.no=ti.titleNo AND i.no=ti.ingNo AND r BETWEEN #{start} and #{end}
+    ORDER BY r
+</select>
+
+<!-- 21-10-01 16:48 모든 데이터 제거 -->
+<delete id="deleteCooking">
+	DELETE FROM cooking CASCADE
+</delete>
+
+</mapper>
+

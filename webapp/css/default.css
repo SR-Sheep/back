@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+body {
+	font-family: "Noto Sans KR",sans-serif;
+}
+
+button,input,textarea,select {
+	font-family: "Noto Sans KR",sans-serif;
+}
+
+#contents {
+	width: 1100px;
+	margin: auto;
+}

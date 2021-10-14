@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="title">
+
+<!--21-07-07 10:45 부제목 입력  -->
+<insert id="insertTitle" parameterType="Title">
+	<selectKey keyProperty="no" resultType="int" order="BEFORE">  
+        SELECT title_seq.nextval
+        FROM dual
+     </selectKey>
+		INSERT INTO title(no,title,cookingNo,regdate)
+		VALUES (#{no},#{title},#{cookingNo},sysdate)
+</insert>
+
+<!--21-07-09 02:37 title_ing 입력  -->
+<insert id="insertTitleIng" parameterType="TitleIng">
+	INSERT INTO title_ing(no,ingNo,titleNo,regdate)
+	VALUES (title_ing_seq.nextval, #{ingNo},#{titleNo},sysdate)
+</insert>
+
+
+<!--21-07-08 18:37 부제목 이름으로 부제목 정보 가져오기  -->
+<select id="selectOneByTitle" parameterType="title" resultType="Title">
+	SELECT no,title,cookingNo,regdate
+	FROM title
+	WHERE title=#{title} AND cookingNo=#{cookingNo}
+</select>	
+
+
+<!-- 21-10-01 16:48 모든 데이터 제거 -->
+<delete id="deleteTitle">
+	DELETE FROM title CASCADE
+</delete>
+
+<!-- 21-10-01 16:48 모든 데이터 제거 -->
+<delete id="deleteTitleIng">
+	DELETE FROM title_ing CASCADE
+</delete>
+
+
+
+</mapper>
+

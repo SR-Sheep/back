@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<settings>
+<setting name="jdbcTypeForNull" value="NULL" />
+</settings>
+
+	<typeAliases>
+		<typeAlias type="org.sheep.back.vo.Youtube" alias="Youtube"/>
+		<typeAlias type="org.sheep.back.vo.Cooking" alias="Cooking"/>
+		<typeAlias type="org.sheep.back.vo.Ingredient" alias="Ingredient"/>
+		<typeAlias type="org.sheep.back.vo.Title" alias="Title"/>
+		<typeAlias type="org.sheep.back.vo.TitleIng" alias="TitleIng"/>
+		<typeAlias type="org.sheep.back.vo.PageVO" alias="PageVO"/>
+	</typeAliases>
+
+	<!-- mapper 경로 설정 -->
+	<mappers>
+		<mapper resource="org/sheep/back/mapper/cooking.xml"/>
+		<mapper resource="org/sheep/back/mapper/ingredient.xml"/>
+		<mapper resource="org/sheep/back/mapper/title.xml"/>
+	</mappers>
+
+</configuration>
+
+
