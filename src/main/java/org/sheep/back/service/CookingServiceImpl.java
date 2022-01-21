@@ -96,7 +96,7 @@ public class CookingServiceImpl implements CookingService {
 			if(s.matches("\\-{4,}")) continue;
 			//21-07-06 .으로 끝나면 부가적인 설명임으로 패쓰
 			if(s.endsWith(".")) continue;
-			//21-07-07 22:58 *로 시작하면 부제목에 해당
+			//21-07-07 22:58 *이나 [로 시작하면 부제목에 해당
 			if(s.startsWith("*")||s.startsWith(" *")||s.startsWith("[")||s.endsWith("-")) {
 				subTitle=s.split("\\*|\\[|\\]|\\-")[1].trim(); continue;
 			}
@@ -107,6 +107,9 @@ public class CookingServiceImpl implements CookingService {
 			//21-07-06 23:02 괄호 제거
 			if(s.contains("(")) s=s.substring(0,s.lastIndexOf("("));
 			if(s.contains("꼬집")) s=s.substring(0, s.length()-3);
+			//22-01-21 21:47 기호에따라, 개인취향에 맞게 라는 표현이 들어가면 앞부분만 취함
+			if(s.contains("기호")) s=s.split("기호")[0];
+			if(s.contains("개인")) s=s.split("개인")[0];
 			//21-07-13 06:02 재료명 앞에 삶은 붙으면 제거
 			if(s.matches("^삶은[ |가-힣]*")) s=s.substring(2,s.length());
 			//21-07-06 23:05 공백 제거
