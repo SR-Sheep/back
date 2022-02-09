@@ -264,13 +264,6 @@ public class CookingServiceImpl implements CookingService {
 		return cookingDAO.selectOneCooking(id);
 	}
 	
-	@Override
-	public Map<String, Object> youtube() {
-		Map<String,Object> map = new ConcurrentHashMap<String, Object> ();
-		return map;
-	}
-	
-	
 	//21-10-02 16:50 모든 DB 제거, 일련의 작업이므로 transaction 선언
 	@Override
 	@Transactional
