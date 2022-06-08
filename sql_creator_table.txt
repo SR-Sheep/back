@@ -1,0 +1,169 @@
+/* 재료 */
+CREATE TABLE ingredient (
+	no NUMBER(10,0) NOT NULL, /* 번호 */
+	ingredient VARCHAR2(500) NOT NULL, /* 재료 */
+	regdate TIMESTAMP NOT NULL /* 등록일 */
+);
+
+COMMENT ON TABLE ingredient IS '재료';
+
+COMMENT ON COLUMN ingredient.no IS '번호';
+
+COMMENT ON COLUMN ingredient.ingredient IS '재료';
+
+COMMENT ON COLUMN ingredient.regdate IS '등록일';
+
+CREATE UNIQUE INDEX PK_ingredient
+	ON ingredient (
+		no ASC
+	);
+
+ALTER TABLE ingredient
+	ADD
+		CONSTRAINT PK_ingredient
+		PRIMARY KEY (
+			no
+		);
+
+/* 요리 */
+CREATE TABLE cooking (
+	no NUMBER(10,0) NOT NULL, /* 번호 */
+	cooking VARCHAR2(500) NOT NULL, /* 요리 */
+	thumbnail VARCHAR2(500) NOT NULL, /* 썸네일 */
+	id VARCHAR2(100) NOT NULL, /* 주소 */
+	regdate TIMESTAMP NOT NULL /* 등록일 */
+);
+
+COMMENT ON TABLE cooking IS '요리';
+
+COMMENT ON COLUMN cooking.no IS '번호';
+
+COMMENT ON COLUMN cooking.cooking IS '요리';
+
+COMMENT ON COLUMN cooking.thumbnail IS '썸네일';
+
+COMMENT ON COLUMN cooking.id IS '주소';
+
+COMMENT ON COLUMN cooking.regdate IS '등록일';
+
+CREATE UNIQUE INDEX PK_cooking
+	ON cooking (
+		no ASC
+	);
+
+ALTER TABLE cooking
+	ADD
+		CONSTRAINT PK_cooking
+		PRIMARY KEY (
+			no
+		);
+
+/* 소제목_재료 */
+CREATE TABLE title_ing (
+	no NUMBER(10,0) NOT NULL, /* 번호 */
+	ingNo NUMBER(10,0) NOT NULL, /* 재료번호 */
+	titleNo NUMBER(10,0) NOT NULL, /* 소제목번호 */
+	regdate TIMESTAMP NOT NULL /* 등록일 */
+);
+
+COMMENT ON TABLE title_ing IS '소제목_재료';
+
+COMMENT ON COLUMN title_ing.no IS '번호';
+
+COMMENT ON COLUMN title_ing.ingNo IS '재료번호';
+
+COMMENT ON COLUMN title_ing.titleNo IS '소제목번호';
+
+COMMENT ON COLUMN title_ing.regdate IS '등록일';
+
+/* 소제목 */
+CREATE TABLE title (
+	no NUMBER(10,0) NOT NULL, /* 번호 */
+	title VARCHAR2(500) NOT NULL, /* 소제목 */
+	cookingNo NUMBER(10,0) NOT NULL, /* 요리번호 */
+	regdate TIMESTAMP NOT NULL /* 등록일 */
+);
+
+COMMENT ON TABLE title IS '소제목';
+
+COMMENT ON COLUMN title.no IS '번호';
+
+COMMENT ON COLUMN title.title IS '소제목';
+
+COMMENT ON COLUMN title.cookingNo IS '요리번호';
+
+COMMENT ON COLUMN title.regdate IS '등록일';
+
+CREATE UNIQUE INDEX PK_title
+	ON title (
+		no ASC
+	);
+
+ALTER TABLE title
+	ADD
+		CONSTRAINT PK_title
+		PRIMARY KEY (
+			no
+		);
+
+ALTER TABLE title_ing
+	ADD
+		CONSTRAINT FK_ingredient_TO_title_ing
+		FOREIGN KEY (
+			ingNo
+		)
+		REFERENCES ingredient (
+			no
+		);
+
+ALTER TABLE title_ing
+	ADD
+		CONSTRAINT FK_title_TO_title_ing
+		FOREIGN KEY (
+			titleNo
+		)
+		REFERENCES title (
+			no
+		);
+
+ALTER TABLE title
+	ADD
+		CONSTRAINT FK_cooking_TO_title
+		FOREIGN KEY (
+			cookingNo
+		)
+		REFERENCES cooking (
+			no
+		);
+
+create sequence "COOKING_SEQ"
+start with 1
+increment by 1
+maxvalue 9999999999
+minvalue 1
+nocache
+nocycle;
+
+create sequence "INGREDIENT_SEQ"
+start with 1
+increment by 1
+maxvalue 9999999999
+minvalue 1
+nocache
+nocycle;
+
+create sequence "TITLE_SEQ"
+start with 1
+increment by 1
+maxvalue 9999999999
+minvalue 1
+nocache
+nocycle;
+
+create sequence "TITLE_ING_SEQ"
+start with 1
+increment by 1
+maxvalue 9999999999
+minvalue 1
+nocache
+nocycle;

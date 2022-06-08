@@ -23,6 +23,7 @@
 	
 	/*21-07-22 00:06 검색창에서 키보드를 눌렀을 때 자동완성 */
 	$search.keyup(function(e){
+		console.log("키업"+e.keyCode);
 		/*21-07-22 17:06 아래 방향키 누를경우 */
 		if(e.keyCode===40){
 	    	/*21-07-22 17:06 selected 클래스가 없거나 맨 마지막 요소에 selected 클래스인 경우 맨 위에 selected 클래스 부여 */
@@ -46,8 +47,40 @@
 	    	/*21-07-22 17:19 input의 값을 selected의 값으로 변경 */
 			$search.val($(".selected").text());
 			
-		/*21-07-22 18:08 엔터를 쳤을 때*/
-		}else if(e.keyCode===13){
+		/*21-07-22 18:08 엔터를 쳤을 때 -> 아래 사항으로 변경*/
+		/*22-01-14 23:18 엔터를 치지 않았을 때
+			키업 이벤트시 엔터가 두번 쳐지는 문제를 해결하기 위해 keypress이벤트로 변경*/
+		}else if(e.keyCode!==13){
+			/*자동 완성에 selected 클래스가 있다면 접시에 재료 올리기 
+			$auto.children().each(function(){
+				if($(this).text()==$search.val()){
+					isIngredient=true;
+					return false;
+				}
+			})
+			if(isIngredient){
+				serving($search.val());
+				$search.val('');
+				isIngredient=false;
+			}
+			*/
+			/*22-01-14 엔터시 삭제
+			$auto.empty();*/
+		/*21-07-22 00:13 나머지 다른 키 입력시*/
+		    /*키 입력마다 재료 list 불러오기 */
+			loadIngredients();	
+		}
+		
+		//else{
+		//    loadIngredients();
+		//}
+		//else end
+		
+	})//keyup event end
+	/*22-01-14 23:18 엔터를 치지 않았을 때
+			키업 이벤트시 엔터가 두번 쳐지는 문제를 해결하기 위해 keypress이벤트로 변경*/
+	$search.keypress(function(e){
+		if(e.keyCode===13){
 			/*자동 완성에 selected 클래스가 있다면 접시에 재료 올리기 */
 			$auto.children().each(function(){
 				if($(this).text()==$search.val()){
@@ -60,14 +93,10 @@
 				$search.val('');
 				isIngredient=false;
 			}
+			/*22-01-14 엔터시 삭제*/
 			$auto.empty();
-		/*21-07-22 00:13 나머지 다른 키 입력시*/	
-		}else{
-		    /*키 입력마다 재료 list 불러오기 */
-		    loadIngredients();
-		}//else end
-	})//keyup event end
-	    
+		}
+	})//keypress event end                
 	
 	/*21-07-22 00:13 ajax를 이용하여 재료 list 불러오기 */
 	function loadIngredients(){
