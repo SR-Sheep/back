@@ -4,7 +4,7 @@ import org.jsoup.Jsoup;
 //21-10-01 유튜브 자동 업로드를 위한 클래스 선언
 public class Youtube {
 	//받아오기 위한 개인 키
-	private final String KEY = "AIzaSyD-swwnkV_MtoxfIocbo9mYEDwlBlemUZo";
+	private final String KEY = "***"; //보안을 위한 개인키 삭제
 	//채널 id (백종원의 요리비책)
 	private final String PLAYLISTID = "UUyn-K7rZLXjGl7VXGweIlcA";
 	//최대 결과수 50, 이후 토큰을 통해 다음 페이지를 로딩함
